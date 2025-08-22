@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://public-frontend-cos.metadl.com/mgx/img/favicon.png" type="image/png">
+    <title>Valhalla Arena - Браузерная боевая игра викингов</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <!-- Экран регистрации -->
+    <div id="registration-screen" class="screen active">
+        <div class="container">
+            <h1>⚔️ Добро пожаловать в Valhalla Arena ⚔️</h1>
+            <div class="registration-form">
+                <label for="player-name">Введите ваше имя:</label>
+                <input type="text" id="player-name" placeholder="Ваше имя" maxlength="20">
+                <button id="register-btn">Начать игру</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Домашняя страница -->
+    <div id="home-screen" class="screen">
+        <div class="container">
+            <nav class="main-nav">
+                <button id="home-nav" class="nav-btn active">Главная</button>
+                <button id="character-nav" class="nav-btn">Персонаж</button>
+                <button id="settings-nav" class="nav-btn">Настройки</button>
+            </nav>
+            
+            <div class="home-content">
+                <h1>🛡️ Добро пожаловать, <span id="player-name-display"></span>! ⚔️</h1>
+                <p>Докажи свою доблесть в битве!</p>
+                <button id="start-fight-btn" class="action-btn viking-btn">🗡️ В БОЙ! 🗡️</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница персонажа -->
+    <div id="character-screen" class="screen">
+        <div class="container">
+            <nav class="main-nav">
+                <button id="home-nav-2" class="nav-btn">Главная</button>
+                <button id="character-nav-2" class="nav-btn active">Персонаж</button>
+                <button id="settings-nav-2" class="nav-btn">Настройки</button>
+            </nav>
+
+            <div class="character-info">
+                <div class="avatar-section">
+                    <div class="avatar-container">
+                        <img id="player-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt="Avatar" class="avatar">
+                        <div class="avatar-overlay">
+                            <span>Сменить аватар</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="character-stats">
+                    <h2 id="character-name"></h2>
+                    <div class="stats">
+                        <div class="stat">
+                            <span class="stat-label">Побед:</span>
+                            <span id="wins-count" class="stat-value">0</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Поражений:</span>
+                            <span id="losses-count" class="stat-value">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Модальное окно выбора аватара -->
+            <div id="avatar-modal" class="modal">
+                <div class="modal-content">
+                    <h3>Выберите аватар</h3>
+                    <div class="avatar-grid" id="avatar-grid">
+                        <!-- Аватары будут добавлены динамически -->
+                    </div>
+                    <button id="close-avatar-modal" class="modal-close">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница настроек -->
+    <div id="settings-screen" class="screen">
+        <div class="container">
+            <nav class="main-nav">
+                <button id="home-nav-3" class="nav-btn">Главная</button>
+                <button id="character-nav-3" class="nav-btn">Персонаж</button>
+                <button id="settings-nav-3" class="nav-btn active">Настройки</button>
+            </nav>
+
+            <h2>Настройки</h2>
+            <div class="settings-form">
+                <label for="new-player-name">Изменить имя:</label>
+                <input type="text" id="new-player-name" placeholder="Новое имя" maxlength="20">
+                <button id="change-name-btn">Сохранить имя</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница боя -->
+    <div id="fight-screen" class="screen">
+        <div class="container">
+            <nav class="fight-nav">
+                <button id="back-home-btn" class="nav-btn">← Домой</button>
+            </nav>
+
+            <div class="fight-arena">
+                <div class="fighters">
+                    <div class="fighter player-fighter">
+                        <img id="fight-player-avatar" src="" alt="Player" class="fighter-avatar">
+                        <h3 id="fight-player-name"></h3>
+                        <div class="health-bar">
+                            <div class="health-fill player-health" id="player-health-fill"></div>
+                            <span class="health-text" id="player-health-text">100/100</span>
+                        </div>
+                    </div>
+
+                    <div class="vs">VS</div>
+
+                    <div class="fighter enemy-fighter">
+                        <img id="enemy-avatar" src="" alt="Enemy" class="fighter-avatar">
+                        <h3 id="enemy-name"></h3>
+                        <div class="health-bar">
+                            <div class="health-fill enemy-health" id="enemy-health-fill"></div>
+                            <span class="health-text" id="enemy-health-text">100/100</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="combat-instructions">
+                    <h3>⚔️ ПРАВИЛА БИТВЫ ⚔️</h3>
+                    <p>Выберите <strong>1 зону для атаки</strong> и <strong>2 зоны для защиты</strong></p>
+                </div>
+
+                <div class="combat-zones">
+                    <div class="zones-section">
+                        <h4>🗡️ Зона атаки (выберите 1):</h4>
+                        <div class="attack-zones">
+                            <button class="zone-btn attack-zone" data-zone="head">🎯 Голова</button>
+                            <button class="zone-btn attack-zone" data-zone="body">🎯 Тело</button>
+                            <button class="zone-btn attack-zone" data-zone="legs">🎯 Ноги</button>
+                        </div>
+                    </div>
+
+                    <div class="zones-section">
+                        <h4>🛡️ Зоны защиты (выберите 2):</h4>
+                        <div class="defense-zones">
+                            <button class="zone-btn defense-zone" data-zone="head">🛡️ Голова</button>
+                            <button class="zone-btn defense-zone" data-zone="body">🛡️ Тело</button>
+                            <button class="zone-btn defense-zone" data-zone="legs">🛡️ Ноги</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="combat-controls">
+                    <button id="attack-btn" class="action-btn viking-btn" disabled>⚔️ В АТАКУ! ⚔️</button>
+                    <div class="selection-info">
+                        <p>🗡️ Атака: <span id="attack-selection">-</span> | 🛡️ Защита: <span id="defense-selection">-</span></p>
+                    </div>
+                </div>
+
+                <div class="combat-log">
+                    <h4>Лог боя:</h4>
+                    <div id="log-container" class="log-container">
+                        <!-- Логи будут добавляться динамически -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Модальное окно результата боя -->
+            <div id="result-modal" class="modal">
+                <div class="modal-content">
+                    <h3 id="result-title"></h3>
+                    <p id="result-message"></p>
+                    <button id="new-fight-btn" class="action-btn">Новый бой</button>
+                    <button id="go-home-btn" class="modal-close">На главную</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./script.js"></script>
+</body>
+
+</html>
